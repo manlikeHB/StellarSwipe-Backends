@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { BullModule } from '@nestjs/bull';
 import { stellarConfig } from './config/stellar.config';
 import { databaseConfig, redisConfig } from './config/database.config';
 import { appConfig, sentryConfig } from './config/app.config';
@@ -11,6 +12,7 @@ import { SentryModule } from './common/sentry';
 import { BetaModule } from './beta/beta.module';
 import { TradesModule } from './trades/trades.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import { SignalsModule } from './signals/signals.module';
 import { configSchema } from './config/schemas/config.schema';
 import configuration from './config/configuration';
 import { HealthController } from './health/health.controller';
@@ -60,13 +62,27 @@ import { HealthController } from './health/health.controller';
         entities: ['dist/**/*.entity{.ts,.js}'],
         migrations: ['dist/migrations/*{.ts,.js}'],
         subscribers: ['dist/subscribers/*{.ts,.js}'],
-        ssl: configService.get<boolean>('database.ssl'),
+        ssl: configService.get<boolean>('database.ssl') ?? false,
+      }),
+    }),
+    // Bull Queue Module for background jobs
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        redis: {
+          host: configService.get<string>('redis.host'),
+          port: configService.get<number>('redis.port'),
+          password: configService.get<string>('redis.password'),
+          db: configService.get<number>('redis.db'),
+        },
       }),
     }),
     // Feature Modules
     BetaModule,
     TradesModule,
     PortfolioModule,
+    SignalsModule,
   ],
   controllers: [HealthController],
   providers: [StellarConfigService],
