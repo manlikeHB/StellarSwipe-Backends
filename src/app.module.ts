@@ -65,6 +65,8 @@ import { HealthController } from './health/health.controller';
       }),
     }),
     // Feature Modules
+    UsersModule,
+    SignalsModule,
     BetaModule,
     TradesModule,
     RiskManagerModule,

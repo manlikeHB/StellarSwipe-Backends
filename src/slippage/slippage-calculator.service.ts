@@ -3,7 +3,7 @@ import {
   SlippageEstimationDto,
   SlippageEstimateResponseDto,
   SlippageToleranceLevel,
-} from './dto/slippage-config.dto';
+} from './slippage-config.dto';
 
 interface MarketDepth {
   bids: Array<{ price: number; quantity: number }>;
@@ -102,7 +102,7 @@ export class SlippageCalculatorService {
     } catch (error: any) {
       this.logger.error(
         `Error estimating slippage for ${estimationDto.symbol}`,
-        error.stack,
+        (error as Error).stack,
       );
       throw error;
     }

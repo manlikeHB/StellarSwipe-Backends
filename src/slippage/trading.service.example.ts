@@ -134,7 +134,7 @@ export class TradingService {
     } catch (error: any) {
       this.logger.error(
         `Error executing trade for ${params.symbol}`,
-        error.stack,
+        (error as Error).stack,
       );
       throw error;
     }

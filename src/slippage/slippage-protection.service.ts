@@ -4,7 +4,7 @@ import {
   SlippageConfigDto,
   SlippageReportDto,
   SlippageToleranceLevel,
-} from './dto/slippage-config.dto';
+} from './slippage-config.dto';
 
 interface TradeExecutionContext {
   symbol: string;
@@ -117,7 +117,7 @@ export class SlippageProtectionService {
     } catch (error: any) {
       this.logger.error(
         `Error validating trade execution for ${context.symbol}`,
-        error.stack,
+        (error as Error).stack,
       );
       throw error;
     }
