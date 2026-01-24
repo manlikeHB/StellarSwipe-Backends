@@ -26,10 +26,14 @@ import { CacheModule } from './cache/cache.module';
 import { redisCacheConfig } from './config/redis.config';
 import { SorobanModule } from './soroban/soroban.module';
 import { SdexModule } from './sdex/sdex.module';
+ main
+import { StellarModule } from './stellar/stellar.module';
+
  dash
 import { DashboardModule } from './dashboard/dashboard.module';
 
 import { AuthModule } from './auth/auth.module';
+ main
  main
 
 @Module({
@@ -108,6 +112,7 @@ import { AuthModule } from './auth/auth.module';
     HealthModule,
     SdexModule,
     SorobanModule,
+    StellarModule,
     CacheModule,
     AuthModule,
   ],
