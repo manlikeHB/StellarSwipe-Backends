@@ -15,6 +15,7 @@ import { BullModule } from '@nestjs/bull';
 import { WebsocketModule } from '../websocket/websocket.module';
 import { TxMonitorService } from './services/tx-monitor.service';
 import { MonitorTransactionsJob } from './jobs/monitor-transactions.job';
+import { PartialCloseService } from './partial-close/partial-close.service';
 
 @Module({
   imports: [
@@ -35,8 +36,9 @@ import { MonitorTransactionsJob } from './jobs/monitor-transactions.job';
     MonitorTransactionsJob,
     OcoOrderService,
     IcebergOrderService,
+    PartialCloseService,
   ],
-  exports: [TradesService, RiskManagerService, OcoOrderService, IcebergOrderService],
+  exports: [TradesService, RiskManagerService, OcoOrderService, IcebergOrderService, PartialCloseService],
 })
 export class TradesModule { }
 
